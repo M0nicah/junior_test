@@ -46,26 +46,50 @@ mysqli_close($conn);
             <input class='border border-red-300 text-red-500 p-2 rounded-md shadow-md hover:bg-red-600 hover:text-white cursor' id="delete-product-btn" type="submit" name="deleteBtn" value="Mass Delete">
         </div>
         <section class="py-10 bg-gray-100">
-            <div class="grid grid-cols-4 ">
+            <div class="grid grid-cols-4">
                 <?php foreach ($products as $product) { ?>
-                    <div class="bg-white mx-auto mx-4 my-5 text-center w-48 h-48 overflow-hidden rounded-xl delete-checkbox shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300">
+                    <div class="bg-white mx-auto mx-4 my-5 text-center w-52 overflow-hidden rounded-xl delete-checkbox shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300">
                         <input type="checkbox" name="delete-chk[]" class="delete-checkbox" value="<?php echo $product["id"]; ?>">
                         <h2 class="font-bold text-lg"><?php echo ($product["SKU"]); ?></h2>
                         <p><?php echo ($product["Pname"]); ?></p>
                         <p><?php echo ($product["Price"]); ?>$</p>
-                        <p class="font-bold">Size: <?php echo ($product["Type"]); ?></p>
+                        <p class="font-light">Type: <span class="font-medium"><?php echo ($product["Type"]); ?></span></p>
+                        <!-- if the product type is furniture, size and weight values will be hidden. so height, width and length will be shown -->
+                        <p class="font-medium <?php echo ($product["Type"] === 'Furniture' ? 'hidden' : ''); ?>">Size: <?php echo ($product["Size"]); ?>MB</p>
+                        <p class="font-medium <?php echo ($product["Type"] === 'Furniture' ? 'hidden' : ''); ?>">Weight: <?php echo ($product["Weight"]); ?>kg</p>
+                        <!-- if the product type is something else height, width, and length will be hidden only size and weight will be shown.  -->
+                        <!-- <p class="font-medium <?php echo ($product["Type"] !== 'Furniture' ? 'hidden' : ''); ?>">Height: <?php echo ($product["Height"]); ?>M</p>
+                        <p class="font-medium <?php echo ($product["Type"] !== 'Furniture' ? 'hidden' : ''); ?>">Width: <?php echo ($product["Width"]); ?>M</p>
+                        <p class="font-medium mb-5 <?php echo ($product["Type"] !== 'Furniture' ? 'hidden' : ''); ?>">Length: <?php echo ($product["Length"]); ?>M</p> -->
+                        <p class="font-medium mb-5 <?php echo ($product["Type"] !== 'Furniture' ? 'hidden' : ''); ?>">Dimensions: <?php echo ($product["Height"]); ?>x<?php echo ($product["Width"]); ?>x<?php echo ($product["Length"]); ?></p>
+
+
                     </div>
                 <?php } ?>
             </div>
-            
-            
         </section>
+
     </form>
 
     <!-- Footer -->
     <footer class="py-6 bg-gray-200 text-gray-900 text-center mx-auto">
         <h3>Scandiweb Test Assignment </h3>
     </footer>
+    <script>
+        // Get all elements with class "font-medium"
+        var elements = document.getElementsByClassName("font-medium");
+
+        // Loop through the elements
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+
+            // Hide the element if it has the "hidden" class
+            if (element.classList.contains("hidden")) {
+                element.style.display = "none";
+            }
+            document.getElementById('dimensionsAlert').style.display = 'block';
+        }
+    </script>
 
 </body>
 
